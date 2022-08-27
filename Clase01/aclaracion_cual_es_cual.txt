@@ -1,0 +1,5 @@
+6: array + rand
+7: array + for + while + for each
+8: array asociativo + for each
+9: array asociativo con varios valores + for each
+10: array de arrays
