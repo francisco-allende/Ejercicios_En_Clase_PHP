@@ -7,33 +7,16 @@
     Arrays de Arrays.
     */
 
-    $lapicera1 = array(  "color"=>"azul", "verde", "rojo", 
-    "marca"=> "bic", "simball", "bic", 
-    "trazo" => "fino", "grueso", "fino", 
-    "precio" => 100, 120, 99.99);
+    $lapiceras = array
+    (
+        $lapiceras[0] = array("Color"=>"Rojo","Marca"=>"Bic","Trazo"=> "Fino","Precio"=>25),
+        $lapiceras[1] = array("Color"=>"Azul","Marca"=>"OMG","Trazo"=> "Mediano","Precio"=>65),
+        $lapiceras[2] = array("Color"=>"Verde","Marca"=>"Firestone","Trazo"=> "Grueso","Precio"=>30),
+    );
 
-    $lapicera2 = array(  "color"=>"azul", "verde", "rojo", 
-    "marca"=> "bic", "simball", "bic", 
-    "trazo" => "fino", "grueso", "fino", 
-    "precio" => 100, 120, 99.99);
-
-    $lapicera3 = array(  "color"=>"azul", "verde", "rojo", 
-    "marca"=> "bic", "simball", "bic", 
-    "trazo" => "fino", "grueso", "fino", 
-    "precio" => 100, 120, 99.99);
-
-    $indexed = array($lapicera1, $lapicera2, $lapicera3);
-    $associative = array(1 => $lapicera1, 2=> $lapicera2, 3=>$lapicera3);
-
-    foreach($indexed as $value)
-    {
-        var_dump($value);
-        echo "<br><br>";
-    }
-
-    foreach($associative as $key => $value)
-    {
-        var_dump($value);
-        echo "<br><br>";
-    }    
+foreach ($lapiceras as $lapicera)
+{
+    echo "Lapicera color ", $lapicera["Color"]," - Marca: ", $lapicera["Marca"], "- Trazo: "
+    , $lapicera["Trazo"],"- Precio: $", $lapicera["Precio"], "<br><br>";
+}   
 ?>
