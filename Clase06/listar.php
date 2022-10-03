@@ -19,27 +19,24 @@
 
     function listByType($datos)
     {
-        $str = "";
-        
         switch(get_class($datos))
         {
             case "Usuario":
-                $arr = listar("usuarios");
-                userHTML($arr);
+                listar("usuarios");
                 break;
 
             case "Productos":
+                listar("productos");
                 break;
 
             case "Ventas":
+                listar("ventas");
                 break;
 
             default:
                 echo "Categoria incorrecta de datos";
                 break;            
         }
-      
-        Usuario::print($str);
     }
 
     //Retorna un array asociativo con todos los objetos solicitados. SELECT * de SQL
@@ -51,41 +48,38 @@
             $conectionStr = "mysql:host=localhost; dbname=Clase06";
             $pdo = new PDO($conectionStr, 'root', ''); //accedo
 
-            $str = 'SELECT * FROM '.$table.'';
+            $query = 'SELECT * FROM '.$table.'';
                 
             //Preparo la sentencia y ejecuto. No necesito bind params
-            $sentencia = $pdo->prepare($str);
+            $sentencia = $pdo->prepare($query);
             $sentencia->execute();
 
             //Cargo lo que me devuelve el SELECT en un array asociativo. CLASS Usuario no me sirvio
             //no me devuelve un asociativo, sino un array de arrays
             $arrayMulti = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            $arrAsoc = $arrayMulti[0];
 
-            foreach ($arrAsoc as $item => $value){
-                echo "Clave: ".$item." - "."Valor: ".$value."".PHP_EOL;
-            }
+            //cada indice del array de arrays es un array que representa un objeto de tipo Usuario
+            //aunque no me toma el objeto. Por ende, lo itero como array indexado y mando cada parametro a una
+            //funcion que printea y arma el html
 
-             //cargo el primer array, que es, lo que quiero en verdad: un asociativo como la gente
-             /*
-             for($i = 0; count($arrayMulti) - 1; $i++)
-             {
-                $x = $arrayMulti[$i];
-             }
-             var_dump($x);
-             */
-            
-            
+            $htmlText = "";
+            //$htmlText.= "<ul>";
+            $htmlText.= "<table style='border: 1px solid black; border-collapse: collapse;'>";
+            $htmlText.= Usuario::buildTableColumns($arrayMulti[0]);
 
-
-            $pdo = null;
-
-            if($arrAsoc != null && count($arrAsoc) != 0)
+            for($i = 0; $i < count($arrayMulti) - 1; $i++)
             {
-                //No es de tipo Usuario, es de tipo Array. 
-                return $arrAsoc;
+                //$htmlText.= buildHtmlList($arrayMulti[$i]);
+                $htmlText.= Usuario::buildTableRows($arrayMulti[$i]);
             }
+            //$htmlText.= "<ul>";
+            $htmlText.= "</table>";
+
+
             
+            echo $htmlText;
+
+            $pdo = null;   
         }
         catch(PDOException $ex)
         {
@@ -94,15 +88,15 @@
     }
 
     //Printeo en HTML cada usuario como array asociativo
-    function userHTML($arrUser)
+    function buildHtmlList($arrUser)
     {
         $str = "";
-        
         //itero sobre array asociativo cada par key value
         foreach ($arrUser as $item => $value){
-            echo "Clave: ".$item." - "."Valor: ".$value."".PHP_EOL;
+            $str.= "<li>"."Clave: ".$item." - "."Valor: ".$value."</li>";
         }
-    
+        $str.="<br>";
 
+        return $str;
     }
 ?>
