@@ -21,9 +21,21 @@ error_reporting (E_ALL ^ E_NOTICE);
             $this->_fechaRegistro = $fechaRegistro;
         }
 
-        public static function List($u)
+        public static function Leer()
         {
-            return $u->_nombre;
+            $conectionStr = "mysql:host=localhost; dbname=Clase06";
+            $pdo = new PDO($conectionStr, 'root', ''); //accedo
+
+            $query = 'SELECT * FROM usuarios';
+                
+            //Preparo la sentencia y ejecuto. No necesito bind params
+            $sentencia = $pdo->prepare($query);
+            $sentencia->execute();
+
+            //Cargo lo que me devuelve el SELECT en un array asociativo. CLASS Usuario no me sirvio
+            //no me devuelve un asociativo, sino un array de arrays
+            $arrayMulti = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return $arrayMulti; 
         }
 
         public function getNombre()
@@ -49,11 +61,6 @@ error_reporting (E_ALL ^ E_NOTICE);
         public function getFechaRegistro()
         {
             return $this->_fechaRegistro;
-        }
-
-        public static function print($str)
-        {
-            echo $str;
         }
 
         public static function buildTableColumns($u)
