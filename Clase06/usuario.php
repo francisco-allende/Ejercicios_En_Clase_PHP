@@ -56,5 +56,28 @@ error_reporting (E_ALL ^ E_NOTICE);
             echo $str;
         }
 
+        public static function buildTableColumns($u)
+        {
+            $str = "<tr>";
+            foreach ($u as $column => $value){
+                $str.= "<th style='border: 1px solid black; padding: 5px 10px;
+                text-align: center;'> $column </th>";
+            }
+            $str.="</tr>";
+
+            return $str;
+        }
+
+        public static function buildTableRows($u)
+        {
+            $str="<tr>";
+            foreach ($u as $column => $value){
+                $str.= "<td style='border: 1px solid black; padding: 5px 10px;
+                text-align: center;'> $value </td>";
+            }
+            $str.="</tr>";
+            return $str;
+        }
+
     }
 ?>
